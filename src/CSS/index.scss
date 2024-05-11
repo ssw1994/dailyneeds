@@ -1,0 +1,35 @@
+:root {
+  //theme 1
+  --bg-color: #5cdb95;
+  --bg-color-secondary: #5bccf6;
+  --fg-color: #05386b;
+
+  // theme 2
+  // --bg-color: #009b4d;
+  // --bg-color-secondary: #ffcc00;
+  // --fg-color: #faf5e9;
+
+  //   theme 3
+  // --bg-color: #2272ff;
+  // --bg-color-secondary: #ddd0c8;
+  // --fg-color: #1d1d1d;
+
+  //theme 4
+  // --bg-color: #ede8f5;
+  // --bg-color-secondary: #7091e6;
+  // --fg-color: #3d52a0;
+}
+*:not(h1, span, label) {
+  background-color: var(--bg-color);
+  color: var(--fg-color);
+}
+@import url("./breakpoints.scss");
+@import url("./common.scss");
+@import url("./htmlTags.scss");
+@import url("./_flex.scss");
+@import url("./fonts.scss");
+
+// i {
+//   color: var(--bg-color-secondary);
+//   fill: var(--fg-color);
+// }

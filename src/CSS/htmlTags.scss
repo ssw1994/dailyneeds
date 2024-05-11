@@ -1,0 +1,32 @@
+input,
+input[type="checkbox"],
+input[type="radio"],
+textarea,
+select {
+  height: 30px;
+  width: 90%;
+  border-radius: 5px;
+}
+
+button {
+  background-color: var(--bg-color-secondary) !important;
+  height: 35px;
+  padding: 5px 10px;
+  outline: none;
+
+  margin: 10px;
+  font-weight: bolder;
+  border-radius: 5px;
+  text-transform: uppercase;
+
+  &:not(:disabled):hover {
+    cursor: pointer;
+  }
+  &:disabled {
+    cursor: not-allowed;
+    background-color: lightgray;
+  }
+}
+.no-color {
+  background-color: white !important;
+}

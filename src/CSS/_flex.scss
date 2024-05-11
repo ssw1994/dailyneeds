@@ -1,0 +1,76 @@
+.flex {
+  display: flex;
+}
+
+.flex-row {
+  @extend .flex;
+  flex-direction: row;
+}
+
+.flex-column {
+  @extend .flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.flex-center-items {
+  align-items: center;
+  justify-content: center;
+}
+.flex-left-items {
+  align-items: flex-start;
+  justify-content: left;
+}
+.flex-right-items {
+  align-items: end;
+  justify-content: end;
+}
+
+.flex-row-justify-right {
+  @extend .flex-row;
+  justify-content: right;
+  align-items: center;
+}
+
+.flex-row-center-items {
+  @extend .flex-row;
+  @extend .flex-center-items;
+}
+.flex-column-center-items {
+  @extend .flex-column;
+  @extend .flex-center-items;
+  gap: 10px;
+}
+.flex-row-left-items {
+  @extend .flex;
+  @extend .flex-row;
+  @extend .flex-left-items;
+  gap: 10px;
+  flex-wrap: wrap;
+
+  & > .card {
+    flex: 1 1 0;
+  }
+}
+.flex-row-right-items {
+  @extend .flex-row;
+  @extend .flex-right-items;
+}
+
+.flex-row-space-between {
+  @extend .flex;
+  justify-content: space-between;
+}
+
+.flex-column-center-item {
+  @extend .flex-column;
+  @extend .flex-center-items;
+}
+.flex-coloum-right-items {
+  @extend .flex-column;
+  @extend .flex-right-items;
+}
+.flex-column-left-items {
+  @extend .flex-column;
+  @extend .flex-left-items;
+}
