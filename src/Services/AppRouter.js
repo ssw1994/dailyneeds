@@ -17,6 +17,7 @@ import TagSettings from "../Apps/Settings/TagSettings/TagSettings";
 import ProductDetails from "../Apps/BalajiStore/ProductDetails/ProductDetails";
 import CartItems from "../Apps/BalajiStore/CartItems/CartItems";
 import PageNotFound from "../Shared/PageNotFound/PageNotFound";
+import Tours from "../Apps/TourPlanner/Tours/Tours";
 export default (function () {
   return createBrowserRouter([
     {
@@ -109,7 +110,16 @@ export default (function () {
             },
           ],
         },
-        { path: "tourplanner", element: <CommentLayout /> },
+        {
+          path: "tourplanner",
+          element: <CommentLayout />,
+          children: [
+            {
+              path: "",
+              element: <Tours />,
+            },
+          ],
+        },
         {
           path: "verifyEmail/:username",
           element: <VerifyEmail />,

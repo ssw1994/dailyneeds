@@ -27,6 +27,7 @@ const initialState = {
     profileInfo: Action.NONE,
     address: Action.NONE,
     profile: Action.NONE,
+    passwordChange: Action.NONE,
   },
 };
 export default function (state = initialState, action) {
@@ -581,6 +582,33 @@ export default function (state = initialState, action) {
         action: {
           ...state.action,
           address: Action.NONE,
+        },
+      };
+    }
+    case AppAction.CHANGE_PASSWORD.SAVING: {
+      return {
+        ...state,
+        action: {
+          ...state.action,
+          passwordChange: Action.LOADING,
+        },
+      };
+    }
+    case AppAction.CHANGE_PASSWORD.SAVED: {
+      return {
+        ...state,
+        action: {
+          ...state.action,
+          passwordChange: Action.SUCCESS,
+        },
+      };
+    }
+    case AppAction.CHANGE_PASSWORD.FAILURE: {
+      return {
+        ...state,
+        action: {
+          ...state.action,
+          passwordChange: Action.ERROR,
         },
       };
     }

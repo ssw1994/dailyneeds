@@ -582,3 +582,22 @@ export function deleteUserAddress(payload) {
       });
   };
 }
+
+export function changePassword(payload) {
+  return (dispatch) => {
+    dispatch({ type: AppAction.CHANGE_PASSWORD.SAVING });
+
+    http
+      .changePassword(payload)
+      .then((response) => {
+        if (response.status === 200) {
+          dispatch({ type: AppAction.CHANGE_PASSWORD.SAVED });
+        } else {
+          dispatch({ type: AppAction.CHANGE_PASSWORD.FAILURE });
+        }
+      })
+      .catch((error) => {
+        dispatch({ type: AppAction.CHANGE_PASSWORD.FAILURE });
+      });
+  };
+}

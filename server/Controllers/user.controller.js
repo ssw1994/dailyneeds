@@ -132,10 +132,11 @@ exports.deleteAddress = async function (req, res, next) {
 exports.changePassword = async function (req, res, next) {
   try {
     const { oldPassword, newPassword } = req.body;
-    const isPasswordMatched = await UserModel.find({
+    const isPasswordMatched = await UserModel.findOne({
       _id: req.userId,
       password: oldPassword,
     });
+    console.log(isPasswordMatched);
     if (isPasswordMatched) {
       const data = await UserModel.findByIdAndUpdate(req.userId, {
         $set: {

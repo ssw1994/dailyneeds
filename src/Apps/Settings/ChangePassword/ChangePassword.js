@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useFormGroup, { FormGroup } from "../../../Hooks/FormGroup";
 import { FormControl } from "../../../Hooks/FormControl";
 import { UIFormControl, UIFormGroup } from "../../../Shared/Form";
 import Card from "../../../Shared/Card/Card";
+import { useDispatch } from "react-redux";
+import { changePassword } from "../../../Store";
 export default function ChangePassword() {
+  const dispatch = useDispatch();
   const [changeForm, updateForm] = useFormGroup(
     new FormGroup(
       {
@@ -14,6 +17,12 @@ export default function ChangePassword() {
       [confirmPassword]
     )
   );
+
+  const [isPasswordMisMatch, updateConfirmPasswordMatch] = useState(false);
+
+  useEffect(() => {
+    updateConfirmPasswordMatch(!confirmPassword());
+  }, [changeForm]);
 
   function confirmPassword() {
     if (!changeForm) return;
@@ -35,7 +44,14 @@ export default function ChangePassword() {
 
   const cancel = () => {};
 
-  const save = () => {};
+  const save = () => {
+    const values = changeForm.getValue();
+    const payload = {
+      oldPassword: values?.oldPassword ?? null,
+      newPassword: values?.newPassword ?? null,
+    };
+    dispatch(changePassword(payload));
+  };
 
   const [password, updateShowHidePassword] = useState({
     oldPassword: "password",
@@ -100,11 +116,14 @@ export default function ChangePassword() {
                 value={getCtrl("confirmPassword")?.value}
                 onChange={(e) => updateChangeForm(e, "confirmPassword")}
               ></input>
+              {isPasswordMisMatch && <p className="error">Password mismatch</p>}
             </UIFormControl>
           </div>
           <div className="flex-row-center-items">
             <button onClick={cancel}>Cancel</button>
-            <button onClick={save}>Save</button>
+            <button onClick={save} disabled={!changeForm.valid}>
+              Save
+            </button>
           </div>
         </UIFormGroup>
       </div>

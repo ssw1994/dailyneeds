@@ -210,6 +210,10 @@ class Http extends axios.Axios {
       "/user/address" + this.convertObjectToQueryString(payload)
     );
   }
+
+  changePassword(payload) {
+    return this.post("/user/changepassword", payload);
+  }
 }
 
 export default new Http();

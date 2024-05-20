@@ -800,3 +800,16 @@ dialog {
     }
   }
 }
+
+.tours {
+  height: 100vh;
+  padding: 0 15px;
+  .card {
+    border: none;
+    border-radius: 0;
+  }
+  i {
+    font-size: 100px;
+    cursor: pointer;
+  }
+}
