@@ -199,3 +199,20 @@ export const orderSummary = createSelector(cartItems, (items) => {
     orderTotal: cartItems?.orderTotal,
   };
 });
+
+export const tourState = createSelector(
+  [(state) => state.tourState],
+  (state) => state
+);
+
+export const tourStateActions = createSelector(
+  [tourState, (state) => state.actions],
+  (actions) => actions
+);
+
+export const myTours = createSelector(tourState, (state) => state?.tours);
+
+export const viewTourDetails = createSelector(
+  tourState,
+  (state) => state?.viewTour
+);

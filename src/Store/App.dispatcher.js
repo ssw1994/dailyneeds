@@ -601,3 +601,63 @@ export function changePassword(payload) {
       });
   };
 }
+
+export function saveUserTour(payload) {
+  return (dispatch) => {
+    dispatch({ type: AppAction.SAVE_USER_TOUR.SAVING });
+
+    http
+      .saveUserTour(payload)
+      .then((response) => {
+        if (response.status === 201) {
+          dispatch({ type: AppAction.SAVE_USER_TOUR.SAVED });
+          dispatch(getMyTours());
+        } else {
+          dispatch({ type: AppAction.SAVE_USER_TOUR.FAILURE });
+        }
+      })
+      .catch((error) => {
+        dispatch({ type: AppAction.SAVE_USER_TOUR.FAILURE });
+      });
+  };
+}
+
+export function getMyTours(payload) {
+  return (dispatch) => {
+    if (payload) {
+      dispatch({ type: AppAction.FETCH_TOUR_DETAILS.LOADING });
+    } else {
+      dispatch({ type: AppAction.FETCH_TOURS.LOADING });
+    }
+    http
+      .fetchMyTours(payload)
+      .then((response) => {
+        if (response.status === 200) {
+          if (payload) {
+            dispatch({
+              type: AppAction.FETCH_TOUR_DETAILS.LOADED,
+              payload: response.data,
+            });
+          } else {
+            dispatch({
+              type: AppAction.FETCH_TOURS.LOADED,
+              payload: response.data,
+            });
+          }
+        } else {
+          if (payload) {
+            dispatch({ type: AppAction.FETCH_TOUR_DETAILS.FAILURE });
+          } else {
+            dispatch({ type: AppAction.FETCH_TOURS.FAILURE });
+          }
+        }
+      })
+      .then((error) => {
+        if (payload) {
+          dispatch({ type: AppAction.FETCH_TOUR_DETAILS.FAILURE });
+        } else {
+          dispatch({ type: AppAction.FETCH_TOURS.FAILURE });
+        }
+      });
+  };
+}

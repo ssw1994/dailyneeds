@@ -9,7 +9,6 @@ export class FormControl {
   pristine;
   touched;
   dirty;
-  valid = true;
   parent = null;
   _isInitialLoad = true;
   erros = {
@@ -39,6 +38,10 @@ export class FormControl {
 
   get value() {
     return this._value;
+  }
+
+  get valid() {
+    return Object.values(this.erros).every((v) => v === false);
   }
 
   hasError(errorName) {
@@ -115,17 +118,16 @@ export class FormControl {
     }
     if (this.pattern) {
       this.erros.pattern = this.checkPatternValidity();
-      if (this.hasError("required")) return;
+      if (this.hasError("pattern")) return;
     }
     if (this.minLength) {
       this.erros.minLength = this.checkMinLengthValidity();
-      if (this.hasError("required")) return;
+      if (this.hasError("minLength")) return;
     }
     if (this.maxLength) {
       this.erros.maxLength = this.checkMaxLengthValidity();
       if (this.hasError("maxlength")) return;
     }
-    this.valid = Object.values(this.erros).every((v) => v === false);
   }
   markAsDirty() {
     this.dirty = true;

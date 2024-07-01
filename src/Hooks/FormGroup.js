@@ -4,6 +4,7 @@ import { FormControl } from "./FormControl";
 export class FormGroup {
   _controls;
   validators = [];
+  subscribers = [];
   formValid = true;
   constructor(value, validatators = []) {
     this.controls = value;
@@ -25,6 +26,12 @@ export class FormGroup {
         control?.reset();
       }
     });
+  }
+
+  subscribe(cb) {
+    if (cb && typeof cb === "function") {
+      this.subscribers.push(cb);
+    }
   }
 
   getCtrl(control) {
@@ -69,10 +76,19 @@ export class FormGroup {
     return true;
   }
   updateControl(key, value) {
-    const formControl = this.controls[key];
-    //this.controls[key] = value;
-    if (formControl && formControl instanceof FormControl) {
-      formControl.setValue(value);
+    try {
+      const formControl = this.controls[key];
+      //this.controls[key] = value;
+      if (formControl && formControl instanceof FormControl) {
+        formControl.setValue(value);
+        this.subscribers?.forEach((subscribe) => {
+          if (subscribe && typeof subscribe === "function") {
+            subscribe(this.getValue());
+          }
+        });
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
 

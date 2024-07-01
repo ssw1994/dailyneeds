@@ -214,6 +214,17 @@ class Http extends axios.Axios {
   changePassword(payload) {
     return this.post("/user/changepassword", payload);
   }
+
+  saveUserTour(payload) {
+    return this.post("/tour/user/save", payload);
+  }
+  fetchMyTours(payload = null) {
+    if (!payload) return this.get("/tour/user/fetch");
+    else
+      return this.get(
+        "/tour/user/fetch" + this.convertObjectToQueryString(payload)
+      );
+  }
 }
 
 export default new Http();

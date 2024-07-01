@@ -30,6 +30,7 @@ app.use("/upload", require("./server/Routes/upload.route")(router));
 app.use("/common", require("./server/Routes/common.route")(router));
 app.use("/store", require("./server/Routes/store.route")(router));
 app.use("/user", require("./server/Routes/user.route")(router));
+app.use("/tour", require("./server/Routes/tour.route")(router));
 //app.use(express.static("build"));
 
 app.get("/", (req, res, next) => {

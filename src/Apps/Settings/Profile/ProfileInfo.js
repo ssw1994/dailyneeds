@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { createRef, useEffect, useState } from "react";
 import Card from "../../../Shared/Card/Card";
 import { UIFormControl, UIFormGroup } from "../../../Shared/Form";
 import useFormGroup, { FormGroup } from "../../../Hooks/FormGroup";
@@ -11,7 +11,10 @@ import {
   userProfileInfo,
 } from "../../../Store";
 import { getViewTemplate } from "./Profile";
+import { UploadButton } from "../../../Shared/FileUploader/FileUploader";
+import ProfilePic from "../../../Shared/ProfilePic/ProfilePic";
 export const BasicInfo = () => {
+  const picRef = createRef();
   const dispatch = useDispatch();
   const isProfileSaved = useSelector(isUserProfileSavedSuccessfully);
   const [mode, updateMode] = useState(MODE.VIEW);
@@ -22,6 +25,7 @@ export const BasicInfo = () => {
       lastName: new FormControl("lastName", "", true),
       mobile: new FormControl("mobile", "", true),
       email: new FormControl("email", "", true),
+      picture: new FormControl("picture", ""),
     })
   );
 
@@ -61,14 +65,29 @@ export const BasicInfo = () => {
         <button onClick={toggleMode}>
           <i className="fa-solid fa-pencil"></i>
         </button>
-        <Card style={{ width: "50%" }}>{getViewTemplate(values)}</Card>
+        <Card style={{ width: "50%" }}>
+          <ProfilePic url={profileInfo.picture} showOnly={true} />
+          {getViewTemplate(values, null, ["picture"])}
+        </Card>
       </Card>
     );
   }
 
+  const uploadedFiles = (files) => {
+    if (files && files?.length >= 1) {
+      updateProfileForm("picture", files[0]);
+    }
+  };
+
   return (
     <Card>
       <UIFormGroup>
+        <ProfilePic
+          uploadedFiles={uploadedFiles}
+          showOnly={false}
+          uploadToServer={true}
+          url={profileInfo.picture}
+        />
         <div className="flex-row-left-items">
           <UIFormControl control={getCtrl("firstName")}>
             <input

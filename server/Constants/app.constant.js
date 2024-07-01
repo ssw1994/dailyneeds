@@ -64,6 +64,10 @@ exports.ERRORS = {
   PASSWORD_CHANGED_SUCCESSFULLY: "Password changed successfully",
   OLD_PASSWORD_DOES_NOT_MATCH: "Old password is incorrect",
   ERROR_IN_PASSWORD_CHANGE: "Error in password change",
+  TOUR_SAVED_SUCCESSFULLY: "Tour saved successfully",
+  ERROR_IN_SAVING_TOUR: "Error in saving tour",
+  TOUR_FETCHED_SUCCESSFULLY: "Tour fetched successfully",
+  ERROR_IN_FETCHING_TOURS: "Error in fetching tours",
 };
 
 exports.NOTIFICATION = {

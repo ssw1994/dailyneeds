@@ -22,7 +22,7 @@ export const UploadButton = forwardRef(({ ref, style, uploadedFiles }) => {
   );
 });
 
-export default function FileUploader({ getFiles }) {
+export default function FileUploader({ getFiles, children }) {
   const [highLight, setHighLight] = useState(false);
   const files = (data) => {
     if (getFiles && typeof getFiles === "function") {
@@ -55,6 +55,7 @@ export default function FileUploader({ getFiles }) {
         onDragLeave={handleDragLeave}
         onDrop={handleFileDrop}
       >
+        {children}
         Drag and Drop Files Here
       </div>
       <span>OR</span>

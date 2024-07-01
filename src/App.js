@@ -7,6 +7,7 @@ import {
   appLoading,
   blogState,
   fetchUserDetails,
+  fetchUserProfile,
   isLoggedIn,
   toastMsg,
 } from "./Store";
@@ -29,6 +30,9 @@ function App() {
       }
     }, 2000);
   }, [isUserLoggedIn]);
+  useEffect(() => {
+    dispatch(fetchUserProfile());
+  }, []);
 
   useEffect(() => {
     console.log(`${Date.now()}`, state);

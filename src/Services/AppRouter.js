@@ -18,6 +18,9 @@ import ProductDetails from "../Apps/BalajiStore/ProductDetails/ProductDetails";
 import CartItems from "../Apps/BalajiStore/CartItems/CartItems";
 import PageNotFound from "../Shared/PageNotFound/PageNotFound";
 import Tours from "../Apps/TourPlanner/Tours/Tours";
+import DayPlan from "../Apps/TourPlanner/DayPlan/DayPlan";
+import AddTour from "../Apps/TourPlanner/AddTour/AddTour";
+import ViewTour from "../Apps/TourPlanner/ViewTour/ViewTour";
 export default (function () {
   return createBrowserRouter([
     {
@@ -117,6 +120,14 @@ export default (function () {
             {
               path: "",
               element: <Tours />,
+            },
+            {
+              path: "add",
+              element: <AddTour />,
+            },
+            {
+              path: "view/:id",
+              element: <ViewTour />,
             },
           ],
         },

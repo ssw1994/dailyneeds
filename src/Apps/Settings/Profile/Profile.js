@@ -6,11 +6,18 @@ import { useDispatch } from "react-redux";
 import { fetchUserProfile } from "../../../Store";
 import ChangePassword from "../ChangePassword/ChangePassword";
 
-export function getViewTemplate(values, fields = null) {
+export function getViewTemplate(values, fields = null, skipFields = null) {
   return Object.keys(values)
     .filter((value) => {
       if (fields && fields instanceof Array) {
         return fields.indexOf(value) >= 0;
+      } else {
+        return true;
+      }
+    })
+    .filter((value) => {
+      if (skipFields && skipFields instanceof Array) {
+        return skipFields.indexOf(value) >= 0 ? false : true;
       } else {
         return true;
       }
@@ -26,11 +33,6 @@ export function getViewTemplate(values, fields = null) {
 }
 
 export default function Profile() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchUserProfile());
-  }, []);
-
   return (
     <div className="profile flex-column-center-items">
       <section>
@@ -39,7 +41,7 @@ export default function Profile() {
         </ExpandCollapsePanel>
       </section>
       <section>
-        <ExpandCollapsePanel title="Address">
+        <ExpandCollapsePanel title="Address" defaultExpanded={true}>
           <AddressInfo />
         </ExpandCollapsePanel>
       </section>

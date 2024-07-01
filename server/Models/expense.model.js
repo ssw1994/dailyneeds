@@ -1,10 +1,11 @@
-const { Schema } = require("mongoose");
+const { Schema, model, default: mongoose } = require("mongoose");
 
-const ExpenseItem = new Schema({
+const ExpenseSchema = new Schema({
   expenseFor: { type: String },
   expenseOf: { type: String },
   description: { type: String },
   date: { type: Date },
+  userId: { type: mongoose.Types.ObjectId, ref: "users" },
 });
 
-const ExpenseSchema = new Schema({});
+exports.ExpenseModel = model("expenses", ExpenseSchema);

@@ -8,7 +8,7 @@ exports.ProfileModel = model(
       lastName: String,
       mobile: String,
       email: String,
-      picture: { type: Schema.Types.ObjectId, ref: "Images" },
+      picture: String,
       userId: { type: Schema.Types.ObjectId, ref: "Users" },
       address: [
         {
