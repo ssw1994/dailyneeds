@@ -1,7 +1,14 @@
 import { useSelector } from "react-redux";
 import Card from "../Card/Card";
 import { cartItems } from "../../Store";
+import { useNavigate } from "react-router";
 export default function OrderSummary() {
+  const navigate = useNavigate();
+
+  const proceed = () => {
+    navigate("/shop/checkout");
+  };
+
   const cartSummary = useSelector(cartItems);
   return (
     <div className="summary">
@@ -34,7 +41,9 @@ export default function OrderSummary() {
         </table>
       </Card>
       <div className="flex-row-center-items">
-        <button style={{ width: "100%" }}>Proceed to Checkout</button>
+        <button style={{ width: "100%" }} onClick={proceed}>
+          Proceed to Checkout
+        </button>
       </div>
     </div>
   );

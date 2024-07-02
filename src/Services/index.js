@@ -222,7 +222,8 @@ class Http extends axios.Axios {
     if (!payload) return this.get("/tour/user/fetch");
     else
       return this.get(
-        "/tour/user/fetch" + this.convertObjectToQueryString(payload)
+        "/tour/user/fetch" + this.convertObjectToQueryString(payload),
+        { headers: { withLoader: true } }
       );
   }
 }

@@ -946,3 +946,47 @@ dialog {
     }
   }
 }
+
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  width: 100%;
+  .steps {
+    margin-top: 15px;
+    width: 85%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-bottom: 15px;
+    .step {
+      position: relative;
+      &-number {
+        height: 30px;
+        width: 30px;
+        border: 1px solid currentColor;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      &-header {
+        position: relative;
+        left: -25%;
+      }
+    }
+
+    .active {
+      .step-number {
+        background-color: var(--fg-color) !important;
+        color: var(--bg-color);
+      }
+    }
+  }
+}

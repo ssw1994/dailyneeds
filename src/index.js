@@ -11,9 +11,9 @@ import AppRouter from "./Services/AppRouter";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={Store}>
-    <React.StrictMode>
-      <RouterProvider router={AppRouter}></RouterProvider>
-    </React.StrictMode>
+    {/* <React.StrictMode> */}
+    <RouterProvider router={AppRouter}></RouterProvider>
+    {/* </React.StrictMode> */}
   </Provider>
 );
 
