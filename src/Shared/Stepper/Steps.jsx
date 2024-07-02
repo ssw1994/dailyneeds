@@ -1,12 +1,29 @@
-import { act, useState } from "react";
+import { act, useEffect, useState } from "react";
 import { memo } from "react";
 
-const Steps = ({ steps, updateSteps }) => {
+const Steps = ({ steps, updateSteps, skipSteps }) => {
   const statusBar = [];
   const elements = [];
   if (steps && steps instanceof Map) {
     const updateActiveStep = (index) => {
-      steps.forEach((_, step) => {});
+      if (!skipSteps) return;
+      const map = new Map();
+      for (let [key, step] of steps) {
+        if (step.completed && step.index > index) {
+          step.completed = false;
+        }
+        if (step.index === index) {
+          step.active = true;
+        } else {
+          step.active = false;
+        }
+        if (step.index < index) {
+          step.completed = true;
+        }
+        map.set(key, step);
+      }
+
+      updateSteps(map);
     };
     steps.forEach((step) => {
       const { index, header, active, completed, stepElement } = step;
@@ -16,7 +33,7 @@ const Steps = ({ steps, updateSteps }) => {
         <>
           <div className={cssClass}>
             <button
-              className="step-number"
+              className={"step-number-" + index}
               onClick={() => updateActiveStep(index)}
             >
               {index}

@@ -967,7 +967,7 @@ dialog {
     margin-bottom: 15px;
     .step {
       position: relative;
-      &-number {
+      [class^="step-number"] {
         height: 30px;
         width: 30px;
         border: 1px solid currentColor;
@@ -980,12 +980,38 @@ dialog {
         position: relative;
         left: -25%;
       }
+      &:not(:last-of-type):after {
+        content: "\00a0";
+        width: 152%;
+        position: absolute;
+        top: 22px;
+        background: red;
+        left: 46%;
+        right: 100%;
+        height: 5px;
+      }
+      &.complete:not(:last-of-type):after {
+        content: "\00a0";
+        width: 152%;
+        position: absolute;
+        top: 22px;
+        background: green;
+        left: 46%;
+        right: 100%;
+        height: 5px;
+      }
     }
 
     .active {
-      .step-number {
+      [class^="step-number"] {
         background-color: var(--fg-color) !important;
         color: var(--bg-color);
+      }
+    }
+    .complete {
+      [class^="step-number"] {
+        background-color: green !important;
+        color: black !important;
       }
     }
   }

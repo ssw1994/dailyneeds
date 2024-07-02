@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import Steps from "./Steps";
 import Card from "../Card/Card";
 
+export const StepperContext = React.createContext(null);
 export class IStep {
   active = false;
   completed = false;
@@ -24,7 +25,7 @@ export class IStep {
   }
 }
 
-export default function Stepper({ children }) {
+export default function Stepper({ children, skipSteps, defaultSteps }) {
   const [steps, updateSteps] = useState(null);
 
   useEffect(() => {
@@ -49,8 +50,16 @@ export default function Stepper({ children }) {
   );
 
   return (
-    <div className="stepper">
-      <Steps steps={steps} updateSteps={updateStepsCallback} />
-    </div>
+    <StepperContext.Provider value={{ steps, updateSteps }}>
+      <div className="stepper">
+        {defaultSteps && (
+          <Steps
+            steps={steps}
+            updateSteps={updateStepsCallback}
+            skipSteps={skipSteps}
+          />
+        )}
+      </div>
+    </StepperContext.Provider>
   );
 }
