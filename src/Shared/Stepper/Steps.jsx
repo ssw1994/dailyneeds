@@ -33,18 +33,15 @@ const Steps = ({ steps, updateSteps, skipSteps }) => {
       const cssClass =
         "step " + (active ? "active" : completed ? "complete" : "pending");
       const stepStatus = (
-        <>
-          <div className={cssClass} key={"header-" + header}>
-            <button
-              className={"step-number-" + index}
-              onClick={() => updateActiveStep(index)}
-            >
-              {index}
-            </button>
-            <div className="step-header">{header}</div>
-          </div>
-          {index <= Array.from(steps)?.length ? <hr key={header} /> : null}
-        </>
+        <div className={cssClass} key={"header-" + header}>
+          <button
+            className={"step-number-" + index}
+            onClick={() => updateActiveStep(index)}
+          >
+            {index}
+          </button>
+          <div className="step-header">{header}</div>
+        </div>
       );
 
       elements.push(

@@ -16,20 +16,35 @@ export const OrderDetails = forwardRef((props, ref) => {
   console.log(products);
   return (
     <div className="order-details">
-      {products?.map((product) => {
-        return (
-          <div className="product-row">
-            <div className="images">
-              <Gallery images={product?.images} onlyImage={true} />
-            </div>
-            <div className="name">{product?.name}</div>
-            <div className="price">{product?.price}</div>
-            <div className="quantity">{product?.quantity}</div>
-            <div className="total-price">{product?.totalPrice}</div>
-          </div>
-        );
-      })}
-      <div className="order-total">{orderTotal}</div>
+      <table>
+        <thead>
+          <tr className="product-row">
+            <th className="images">Images</th>
+            <th className="name">Name</th>
+            <th className="price">Price</th>
+            <th className="quantity">Quantity</th>
+            <th className="total-price">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {products?.map((product) => {
+            return (
+              <tr className="product-row">
+                <td className="images">
+                  <Gallery images={product?.images} onlyImage={true} />
+                </td>
+                <td className="name">{product?.name}</td>
+                <td className="price">{product?.price}</td>
+                <td className="quantity">{product?.quantity}</td>
+                <td className="total-price">{product?.totalPrice}</td>
+              </tr>
+            );
+          })}
+          <tr className="order-total">
+            <td colSpan={5}>{orderTotal}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 });

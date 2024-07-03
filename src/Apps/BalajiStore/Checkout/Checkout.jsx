@@ -9,6 +9,7 @@ import HOCAddressDetails from "./AddressDetails";
 import HOCOrderDetails from "./OrderDetails";
 import HOCPaymentDetails from "./PaymentDetails";
 import HOCReviewAndConfirmDetails from "./ReviewAndConfirmDetails";
+import { AddressInfo } from "../../Settings/Profile/AddressInfo";
 // import {
 //   OrderDetails,
 //   ReviewAndConfirmDetails,
@@ -37,7 +38,8 @@ export default function Checkout() {
   return (
     <Stepper skipSteps={false} defaultSteps={true}>
       <HOCOrderDetails header="Order Details" />
-      <HOCAddressDetails header="Address Details" />
+      <AddressInfo header="Address Details" />
+      {/* <HOCAddressDetails header="Address Details" /> */}
       <HOCPaymentDetails header="Payment Details" />
       <HOCReviewAndConfirmDetails header="Review & Confirm" />
     </Stepper>
