@@ -951,16 +951,26 @@ dialog {
   display: flex;
   align-items: center;
   justify-content: center;
-  > div {
+  > .card {
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    border-radius: 0;
+    border: 0px;
+    box-shadow: 0px 0px 10px #ddd;
+    .card-header {
+      width: 90%;
+    }
+
+    .card-body {
+      width: 90%;
+    }
   }
   width: 100%;
   .steps {
     margin-top: 15px;
-    width: 85%;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -1014,5 +1024,52 @@ dialog {
         color: black !important;
       }
     }
+  }
+  .step-contents {
+    .step {
+      > .card {
+        border: 0;
+      }
+    }
+  }
+}
+
+.order-details {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 0px !important;
+  .product-row {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    .images {
+      width: 20%;
+      min-width: 20%;
+    }
+    .name {
+      max-width: 50%;
+    }
+    .price,
+    .quantity,
+    .total-price {
+      font-weight: bolder;
+      font-size: large;
+      width: 10%;
+      min-width: 10%;
+      text-align: end;
+    }
+    .quantity {
+    }
+    .total-price {
+    }
+  }
+  .order-total {
+    display: flex;
+    justify-content: end;
+    margin-top: 15px;
+    border-top: 1px solid currentColor;
+    font-weight: bolder;
+    color: green;
   }
 }

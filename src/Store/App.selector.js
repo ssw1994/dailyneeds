@@ -193,13 +193,6 @@ export const cartItems = createSelector(
   (state) => state?.cartItems
 );
 
-export const orderSummary = createSelector(cartItems, (items) => {
-  return {
-    products: cartItems?.products,
-    orderTotal: cartItems?.orderTotal,
-  };
-});
-
 export const tourState = createSelector(
   [(state) => state.tourState],
   (state) => state

@@ -1,16 +1,17 @@
-import React from "react";
+import React, { forwardRef, useImperativeHandle } from "react";
 import { HStep } from "../../../Shared/Stepper/Step";
-import useStep from "../../../Shared/Stepper/useStep";
 
-export function AddressDetails() {
-  const { prevStep, nextStep } = useStep();
-  return (
-    <div>
-      AddressDetails
-      <button onClick={prevStep}> Back</button>
-      <button onClick={nextStep}>Next</button>
-    </div>
-  );
-}
+const AddressDetails = forwardRef((props, ref) => {
+  useImperativeHandle(ref, () => {
+    return { onNextStep, onBackStep };
+  });
+  const onNextStep = () => {
+    console.log("AddressDetails Next Step");
+  };
+  const onBackStep = () => {
+    console.log("AddressDetails Back Step");
+  };
+  return <div>AddressDetails</div>;
+});
 
 export default HStep(AddressDetails, "Address Details");

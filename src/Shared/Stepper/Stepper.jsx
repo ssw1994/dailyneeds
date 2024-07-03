@@ -28,6 +28,8 @@ export class IStep {
 export default function Stepper({ children, skipSteps, defaultSteps }) {
   const [steps, updateSteps] = useState(null);
 
+  if (typeof defaultSteps === undefined) defaultSteps = true;
+
   useEffect(() => {
     const map = new Map();
     React.Children.map(children, (child, index) => {
@@ -52,13 +54,11 @@ export default function Stepper({ children, skipSteps, defaultSteps }) {
   return (
     <StepperContext.Provider value={{ steps, updateSteps }}>
       <div className="stepper">
-        {defaultSteps && (
-          <Steps
-            steps={steps}
-            updateSteps={updateStepsCallback}
-            skipSteps={skipSteps}
-          />
-        )}
+        <Steps
+          steps={steps}
+          updateSteps={updateStepsCallback}
+          skipSteps={skipSteps}
+        />
       </div>
     </StepperContext.Provider>
   );

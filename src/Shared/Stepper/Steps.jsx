@@ -1,5 +1,8 @@
 import { act, useEffect, useState } from "react";
 import { memo } from "react";
+import Card from "../Card/Card";
+import CardHeader from "../Card/CardHeader";
+import CardBody from "../Card/CardBody";
 
 const Steps = ({ steps, updateSteps, skipSteps }) => {
   const statusBar = [];
@@ -31,7 +34,7 @@ const Steps = ({ steps, updateSteps, skipSteps }) => {
         "step " + (active ? "active" : completed ? "complete" : "pending");
       const stepStatus = (
         <>
-          <div className={cssClass}>
+          <div className={cssClass} key={"header-" + header}>
             <button
               className={"step-number-" + index}
               onClick={() => updateActiveStep(index)}
@@ -40,12 +43,16 @@ const Steps = ({ steps, updateSteps, skipSteps }) => {
             </button>
             <div className="step-header">{header}</div>
           </div>
-          {index <= Array.from(steps)?.length ? <hr /> : null}
+          {index <= Array.from(steps)?.length ? <hr key={header} /> : null}
         </>
       );
 
       elements.push(
-        <div className="step-contents" hidden={!active}>
+        <div
+          className="step-contents"
+          key={"contents-" + header}
+          hidden={!active}
+        >
           {stepElement}
         </div>
       );
@@ -54,10 +61,12 @@ const Steps = ({ steps, updateSteps, skipSteps }) => {
   }
 
   return (
-    <div style={{ width: "85%" }}>
-      <div className="steps">{statusBar}</div>
-      {elements}
-    </div>
+    <Card style={{ width: "85%" }}>
+      <CardHeader>
+        <div className="steps">{statusBar}</div>
+      </CardHeader>
+      <CardBody>{elements}</CardBody>
+    </Card>
   );
 };
 export default memo(Steps);

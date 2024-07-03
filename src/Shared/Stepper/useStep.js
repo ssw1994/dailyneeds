@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StepperContext } from "./Stepper";
 
 export default function useStep() {
@@ -16,7 +16,7 @@ export default function useStep() {
       updateSteps(map);
     }
   };
-  const nextStep = () => {
+  const nextStep = (cb) => {
     if (steps && steps instanceof Map) {
       for (let [key, step] of steps) {
         if (step.active && step.index < steps.size) {
@@ -26,13 +26,16 @@ export default function useStep() {
             completed: true,
           });
           gotoStep(step.index + 1);
+          if (cb && typeof cb === "function") {
+            cb();
+          }
           break;
         }
       }
     }
   };
 
-  const prevStep = () => {
+  const prevStep = (cb) => {
     if (steps && steps instanceof Map) {
       for (let [key, step] of steps) {
         if (step.active && step.index > 1) {
@@ -42,11 +45,29 @@ export default function useStep() {
             completed: false,
           });
           gotoStep(step.index - 1);
+          if (cb && typeof cb === "function") {
+            cb();
+          }
           break;
         }
       }
     }
   };
 
-  return { prevStep, nextStep };
+  const [activeStep, updateActiveStep] = useState(null);
+
+  useEffect(() => {
+    for (let [key, step] of steps) {
+      if (step.active) {
+        updateActiveStep({
+          step,
+          isFirstStep: step.index === 1,
+          isLastStep: step.index === steps.size,
+        });
+        break;
+      }
+    }
+  }, [steps]);
+
+  return { prevStep, nextStep, activeStep };
 }
