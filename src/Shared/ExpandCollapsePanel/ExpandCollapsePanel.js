@@ -4,6 +4,7 @@ export default function ExpandCollapsePanel({
   title,
   children,
   defaultExpanded,
+  disabled,
 }) {
   const [expanded, toggleExpanded] = useState(false);
   useEffect(() => {
@@ -12,7 +13,9 @@ export default function ExpandCollapsePanel({
   return (
     <div className="expand-collapse-panel">
       <div
-        className="expand-collapse-header flex-row-left-items"
+        className={`expand-collapse-header flex-row-left-items ${
+          disabled ? "disabled" : ""
+        }`}
         style={{ justifyContent: "space-between", alignItems: "center" }}
         onClick={() => toggleExpanded(!expanded)}
       >

@@ -702,6 +702,7 @@ dialog {
   hr {
     margin: 0;
   }
+
   .expand-collapse-header {
     background-color: white;
     font-weight: bolder;
@@ -710,6 +711,14 @@ dialog {
       margin-bottom: 0px;
     }
     padding: 2px 5px;
+  }
+
+  .disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    > button {
+      opacity: 0.7;
+    }
   }
   .expand-collapse-body {
     background-color: white;
@@ -771,6 +780,10 @@ dialog {
     .card {
       position: absolute;
     }
+  }
+  > .selected_address {
+    background-color: var(--bg-color) !important;
+    color: var(--fg-color);
   }
 }
 .key-values {
@@ -963,6 +976,9 @@ dialog {
     .card-header {
       width: 90%;
     }
+    .card-body {
+      width: 90%;
+    }
   }
   width: 100%;
   .steps {
@@ -1025,6 +1041,7 @@ dialog {
     .step {
       > .card {
         border: 0;
+        width: auto;
         > .card-footer {
           margin-top: 15px;
           display: flex;
@@ -1085,4 +1102,15 @@ dialog {
       color: green;
     }
   }
+}
+
+.payment_modes {
+  > div {
+    align-items: center;
+  }
+}
+
+input[type="radio"] {
+  width: 25px !important;
+  height: 25px !important;
 }

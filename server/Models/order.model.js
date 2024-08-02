@@ -1,4 +1,7 @@
 const { model, Schema } = require("mongoose");
+const { ProductModel } = require("./product.model");
+const { CartModel } = require("./cart.model");
+const { UserModel } = require("./auth.model");
 const OrderSchema = new Schema(
   {
     userId: { type: Schema.Types.ObjectId, ref: "Users" },
@@ -28,10 +31,21 @@ const OrderSchema = new Schema(
 );
 
 OrderSchema.pre("save", async function (next) {
-  this.totalPrice = this.products?.reduce((acc, { quantity, price }) => {
-    return acc + quantity * price;
-  }, 0);
+  // this.totalPrice = this.products?.reduce((acc, { quantity, price }) => {
+  //   return acc + quantity * price;
+  // }, 0);
+  const date = new Date();
+  date.setDate(date.getDate() + 5);
+  this.deliveryDate = date;
   next();
 });
 
-exports.Order = model("Orders", OrderSchema);
+OrderSchema.post("save", async function (doc) {
+  const user = await UserModel.findOne({ _id: doc.userId });
+  await CartModel.updateOne(
+    { _id: user.cartId },
+    { $pull: { products: { $in: doc.products } } }
+  );
+});
+
+exports.OrderModel = model("Orders", OrderSchema);

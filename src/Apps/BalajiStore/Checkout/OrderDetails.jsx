@@ -1,16 +1,26 @@
-import React, { forwardRef, useImperativeHandle } from "react";
+import React, { forwardRef, useContext, useImperativeHandle } from "react";
 import { HStep } from "../../../Shared/Stepper/Step";
 import useStep from "../../../Shared/Stepper/useStep";
 import { useSelector } from "react-redux";
 import { cartItems } from "../../../Store/App.selector";
 import { Gallery } from "../../../Shared/Gallery/Gallery";
+import { CheckoutContext } from "./Checkout";
 
 export const OrderDetails = forwardRef((props, ref) => {
   const { products, orderTotal } = useSelector(cartItems);
+  const { updateCheckoutDetails } = useContext(CheckoutContext);
   useImperativeHandle(ref, () => {
     return { onNextStep };
   });
   const onNextStep = () => {
+    updateCheckoutDetails((prev) => {
+      return {
+        orderDetails: {
+          products,
+          orderTotal,
+        },
+      };
+    });
     console.log("OrderDetails Next step");
   };
   console.log(products);

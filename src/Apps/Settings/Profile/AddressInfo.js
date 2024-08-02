@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useState } from "react";
+import React, { createRef, useContext, useEffect, useState } from "react";
 import ExpandCollapsePanel from "../../../Shared/ExpandCollapsePanel/ExpandCollapsePanel";
 import Card from "../../../Shared/Card/Card";
 import { UIFormControl, UIFormGroup } from "../../../Shared/Form";
@@ -11,10 +11,13 @@ import {
   isAddressSavedSuccessfully,
   saveUserAddress,
   saveUserProfile,
+  selectAddress,
   userAddressInfo,
   userProfileInfo,
 } from "../../../Store";
 import { getViewTemplate } from "./Profile";
+import { HStep } from "../../../Shared/Stepper/Step";
+import { CheckoutContext } from "../../BalajiStore/Checkout/Checkout";
 
 export const AddressCard = ({ address, viewAddress }) => {
   const buttonRef = createRef();
@@ -66,6 +69,7 @@ export const AddressCard = ({ address, viewAddress }) => {
         onMouseEnter={() => openDetails(true)}
         onMouseLeave={() => openDetails(false)}
         ref={buttonRef}
+        className={address.selected ? "selected_address" : ""}
       >
         {icon}
         {addressType}
@@ -75,14 +79,34 @@ export const AddressCard = ({ address, viewAddress }) => {
   );
 };
 
-export const SavedAddress = ({ toggleMode }) => {
+export const SavedAddress = ({ toggleMode, allowSelection }) => {
   const addresses = useSelector(userAddressInfo);
+  const dispatch = useDispatch();
+  const { updateCheckoutDetails } = useContext(CheckoutContext);
 
+  const viewAddress = (address) => {
+    if (allowSelection) {
+      dispatch(selectAddress(address));
+      updateCheckoutDetails &&
+        updateCheckoutDetails((prev) => {
+          return {
+            ...prev,
+            addressDetails: address,
+          };
+        });
+    } else {
+      toggleMode(address);
+    }
+  };
   return (
     <div className="user-addresses">
       {addresses?.map((address, index) => {
         return (
-          <AddressCard key={index} address={address} viewAddress={toggleMode} />
+          <AddressCard
+            key={index}
+            address={address}
+            viewAddress={viewAddress}
+          />
         );
       })}
       <button onClick={toggleMode}>
@@ -93,7 +117,7 @@ export const SavedAddress = ({ toggleMode }) => {
   );
 };
 
-export const AddEditAddress = ({ addressInfo, toggleMode }) => {
+export const AddEditAddress = ({ addressInfo, toggleMode, allowSelection }) => {
   const dispatch = useDispatch();
   const isAddressSaved = useSelector(isAddressSavedSuccessfully);
   const [addressForm, updateAddressForm, reset, patchValue] = useFormGroup(
@@ -132,6 +156,7 @@ export const AddEditAddress = ({ addressInfo, toggleMode }) => {
 
   const saveAddress = () => {
     const value = addressForm.getValue();
+    if (!value?._id) delete value._id;
     dispatch(saveUserAddress(value));
   };
 
@@ -218,7 +243,7 @@ export const AddEditAddress = ({ addressInfo, toggleMode }) => {
   );
 };
 
-export const AddressInfo = ({ addressInfo }) => {
+export const AddressInfo = ({ addressInfo, allowSelection }) => {
   const [mode, updateMode] = useState(MODE.VIEW);
   const [selectedAddress, updateSelectedAddress] = useState(null);
 
@@ -228,10 +253,14 @@ export const AddressInfo = ({ addressInfo }) => {
   };
 
   if (mode === MODE.VIEW) {
-    return <SavedAddress toggleMode={toggleMode} />;
+    return (
+      <SavedAddress toggleMode={toggleMode} allowSelection={allowSelection} />
+    );
   }
 
   return (
     <AddEditAddress addressInfo={selectedAddress} toggleMode={toggleMode} />
   );
 };
+
+export const HOCAddressInfo = HStep(AddressInfo);

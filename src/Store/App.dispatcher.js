@@ -554,8 +554,8 @@ export function saveUserAddress(payload) {
           dispatch({ type: AppAction.ADDRESS.SAVED });
           dispatch(fetchUserProfile());
           setTimeout(() => {
-            dispatch({ type: AppAction.ADDRESS.RESET }, 1000);
-          });
+            dispatch({ type: AppAction.ADDRESS.RESET });
+          }, 1000);
         }
       })
       .catch((error) => {
@@ -658,6 +658,30 @@ export function getMyTours(payload) {
         } else {
           dispatch({ type: AppAction.FETCH_TOURS.FAILURE });
         }
+      });
+  };
+}
+
+export function selectAddress(payload) {
+  return (dispatch) => {
+    dispatch({ type: AppAction.SELECT_ADDRESS, payload });
+  };
+}
+
+export function placeOrder(payload) {
+  return (dispatch) => {
+    dispatch({ type: AppAction.PLACE_ORDER.SAVING });
+    http
+      .placeOrder(payload)
+      .then((response) => {
+        if (response.status === 201) {
+          dispatch({ type: AppAction.PLACE_ORDER.SAVED });
+        } else {
+          dispatch({ type: AppAction.PLACE_ORDER.FAILURE });
+        }
+      })
+      .catch((error) => {
+        dispatch({ type: AppAction.PLACE_ORDER.FAILURE });
       });
   };
 }

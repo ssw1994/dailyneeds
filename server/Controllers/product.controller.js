@@ -8,7 +8,10 @@ const {
 } = require("../Models/cart.model");
 const {
   Types: { ObjectId },
+  default: mongoose,
 } = require("mongoose");
+const Stripe = require("stripe");
+const { OrderModel } = require("../Models/order.model");
 exports.addProduct = async function (req, res, next) {
   try {
     const { images } = req.body;
@@ -104,6 +107,17 @@ exports.addToCartOrWish = async function (req, res, next) {
     let data = null;
     console.log(id, type);
     if (type === "cart") {
+      const productId = new mongoose.Types.ObjectId(id);
+      const isExistInCart = await CartModel.findOne({
+        products: { $elemMatch: { _id: productId } },
+        _id: req.cartId,
+      });
+      if (isExistInCart) {
+        res.status(500).send({
+          message: ERRORS.ALREADY_EXIST_IN_CART,
+          error,
+        });
+      }
       const ProductOrdered = new OrderedProduct({
         productId: id,
         cartId: req.cartId,
@@ -178,7 +192,7 @@ async function userCartDetails(cartId) {
       },
       {
         $group: {
-          _id: "$cardId",
+          _id: "$cartId",
           products: {
             $push: "$productDetails",
           },
@@ -277,5 +291,56 @@ exports.removeFromCart = async function (req, res, next) {
     });
   } finally {
     return;
+  }
+};
+
+const stripe = Stripe(process.env.STRIPE_SECRETE_KEY);
+
+exports.checkoutOrder = async function (req, res, next) {
+  try {
+    if (!process.env.STRIPE_SECRETE_KEY) {
+      res.status(500).send({ message: "STRIPE SECRET KEY NOT FOUND" });
+    }
+    const { amount } = req.body;
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount,
+      currency: "inr",
+    });
+    res.status(200).send({
+      clientSecret: paymentIntent.client_secret,
+    });
+  } catch (error) {
+    res.send({
+      error,
+      message: ERRORS.CHECKOUT_ERROR,
+    });
+  }
+};
+
+exports.placeOrder = async function (req, res, next) {
+  try {
+    const { orderDetails, paymentDetails, addressDetails } = req.body;
+    const Order = new OrderModel({
+      userId: req.userId,
+      products: orderDetails?.products?.map((itm) => itm._id),
+      totalPrice: orderDetails?.orderTotal,
+      deliveryAddress: addressDetails,
+      paymentType: paymentDetails,
+    });
+
+    const data = await Order.save();
+    if (data._id) {
+      res.status(201).send({
+        message: ERRORS.ORDER_PLACED_SUCCESSFULLY,
+        data,
+      });
+    } else {
+      res.status(500).send({
+        message: ERRORS.ERROR_IN_PLACING_ORDER,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error, message: ERRORS.SOMETHING_WENT_WRONG });
   }
 };

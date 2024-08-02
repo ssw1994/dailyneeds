@@ -5,6 +5,8 @@ const {
   fetchCartItems,
   updateItemQuantity,
   removeFromCart,
+  checkoutOrder,
+  placeOrder,
 } = require("../Controllers/product.controller");
 const { verifyToken } = require("../Middlewares/veriftyToken");
 
@@ -16,5 +18,7 @@ module.exports = function (app) {
   app.get("/cart/items", [verifyToken], fetchCartItems);
   app.post("/cart/item/quantity", [verifyToken], updateItemQuantity);
   app.get("/cart/item/delete", [verifyToken], removeFromCart);
+  app.post("/cart/payment", [verifyToken], checkoutOrder);
+  app.post("/cart/placeorder", [verifyToken], placeOrder);
   return app;
 };

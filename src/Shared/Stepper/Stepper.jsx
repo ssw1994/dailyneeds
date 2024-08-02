@@ -42,7 +42,7 @@ export default function Stepper({ children, skipSteps, defaultSteps }) {
     return () => {
       updateSteps(null);
     };
-  }, [children]);
+  }, []);
 
   const updateStepsCallback = useCallback(
     (map) => {

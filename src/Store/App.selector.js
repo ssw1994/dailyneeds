@@ -90,7 +90,7 @@ export const userAddressInfo = createSelector([blogState], (state) => {
 export const isAddressSavedSuccessfully = createSelector(
   [blogStateActions],
   (action) => {
-    return action?.profile === Action.SUCCESS;
+    return action?.address === Action.SUCCESS;
   }
 );
 

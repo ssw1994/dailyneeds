@@ -612,6 +612,22 @@ export default function (state = initialState, action) {
         },
       };
     }
+
+    case AppAction.SELECT_ADDRESS: {
+      return {
+        ...state,
+        profileInfo: {
+          ...state.profileInfo,
+          address: state?.profileInfo?.address.map((address) => {
+            return {
+              ...address,
+              selected:
+                action?.payload._id === address._id && !address.selected,
+            };
+          }),
+        },
+      };
+    }
     default:
       return { ...state };
   }

@@ -33,9 +33,12 @@ exports.saveUserAddress = async function (req, res, next) {
   try {
     let SavedAddress;
     if (!req?.body?._id) {
+      if (req.body?.hasOwnProperty("_id")) delete req.body.id;
       const Address = new AddressModel({ ...req.body, profileId: req.profile });
+      console.log("Saving address", Address);
       SavedAddress = await Address.save();
     } else {
+      console.log("Here I");
       SavedAddress = await AddressModel.findOneAndUpdate(
         { _id: req?.body?._id },
         { ...req.body }

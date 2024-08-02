@@ -8,13 +8,21 @@ import { Provider } from "react-redux";
 import Store from "./Store";
 import { RouterProvider } from "react-router-dom";
 import AppRouter from "./Services/AppRouter";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
+const stripePromise = loadStripe(
+  "pk_test_51Kb3EcSIWAAUtzpKwkGBOL3OJtGbo8KEtWCYqjUowDNacnrlrLYCE2AzN0sObS2YMr5bfbF8fGyRNlDaWNiXKsgG00ZtiBhOfs"
+);
 root.render(
-  <Provider store={Store}>
-    {/* <React.StrictMode> */}
-    <RouterProvider router={AppRouter}></RouterProvider>
-    {/* </React.StrictMode> */}
-  </Provider>
+  <Elements stripe={stripePromise}>
+    <Provider store={Store}>
+      {/* <React.StrictMode> */}
+      <RouterProvider router={AppRouter}></RouterProvider>
+      {/* </React.StrictMode> */}
+    </Provider>
+  </Elements>
 );
 
 // If you want to start measuring performance in your app, pass a function

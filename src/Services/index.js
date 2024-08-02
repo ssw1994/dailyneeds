@@ -226,6 +226,14 @@ class Http extends axios.Axios {
         { headers: { withLoader: true } }
       );
   }
+
+  processPayment(payload) {
+    return this.post("/store/cart/payment", payload);
+  }
+
+  placeOrder(payload) {
+    return this.post("/store/cart/placeorder", payload);
+  }
 }
 
 export default new Http();

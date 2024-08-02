@@ -7,6 +7,7 @@ import { fetchUserProfile } from "../../../Store";
 import ChangePassword from "../ChangePassword/ChangePassword";
 
 export function getViewTemplate(values, fields = null, skipFields = null) {
+  if (!values) return;
   return Object.keys(values)
     .filter((value) => {
       if (fields && fields instanceof Array) {
@@ -21,6 +22,10 @@ export function getViewTemplate(values, fields = null, skipFields = null) {
       } else {
         return true;
       }
+    })
+    .sort((a, b) => {
+      if (!fields || fields instanceof Array === false) return 1;
+      return fields.indexOf(a) > fields.indexOf(b) ? 1 : -1;
     })
     .map((key, index) => {
       return (

@@ -1,5 +1,6 @@
 import React, { forwardRef, useImperativeHandle } from "react";
 import { HStep } from "../../../Shared/Stepper/Step";
+import { AddressInfo } from "../../Settings/Profile/AddressInfo";
 
 const AddressDetails = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => {
@@ -11,7 +12,11 @@ const AddressDetails = forwardRef((props, ref) => {
   const onBackStep = () => {
     console.log("AddressDetails Back Step");
   };
-  return <div>AddressDetails</div>;
+  return (
+    <div>
+      <AddressInfo allowSelection={true} />
+    </div>
+  );
 });
 
 export default HStep(AddressDetails, "Address Details");

@@ -68,6 +68,9 @@ exports.ERRORS = {
   ERROR_IN_SAVING_TOUR: "Error in saving tour",
   TOUR_FETCHED_SUCCESSFULLY: "Tour fetched successfully",
   ERROR_IN_FETCHING_TOURS: "Error in fetching tours",
+  CHECKOUT_ERROR: "Error in creating payment intent",
+  ERROR_IN_PLACING_ORDER: "Error in placing order",
+  ALREADY_EXIST_IN_CART: "Product already in cart",
 };
 
 exports.NOTIFICATION = {
